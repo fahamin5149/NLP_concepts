@@ -35,3 +35,29 @@ The `tokenizer` is a tool that converts raw text into a format suitable for mach
 6. **Output**: Returns a dictionary of PyTorch tensors (e.g., `{"input_ids": tensor(...), "attention_mask": tensor(...)}`).
 
 ---
+
+# Understanding Embeddings
+
+Embeddings are a powerful way to represent words or tokens in a numerical format that captures their meaning and relationships. Here are two intuitive ways to think about embeddings:
+
+## 1. Embeddings as Coordinates on a Map
+Imagine a map where cities like NYC and Los Angeles are marked. If you only know their names, you can't tell their locations or how far apart they are. However, if you are given their coordinates (e.g., latitude and longitude), you can see that they are on opposite sides of the same country. 
+
+Similarly, embeddings assign "coordinates" to each token (word or subword) in a high-dimensional space. These coordinates help the model understand how close or far apart the meanings of tokens are. For example, the embeddings for "cat" and "dog" will be closer to each other than to the embedding for "car," reflecting their semantic similarity.
+
+## 2. Embeddings as Meaning Profiles
+An embedding vector can also be thought of as a "meaning profile" for a word. Each number in the vector represents how much the word "scores" on a particular aspect of meaning. For instance, consider a 3-dimensional embedding vector for the word "dog":
+
+```
+[0.8, 0.2, 0.1]
+```
+
+- `0.8` means "dog" scores high on the "animal" aspect.
+- `0.2` means "dog" scores low on the "food" aspect.
+- `0.1` means "dog" scores very low on the "action" aspect.
+
+In this way, embeddings capture the nuanced meaning of words in a structured, numerical format, making it easier for models to process and understand language.
+
+---
+
+By using embeddings, language models can effectively represent and reason about the relationships and meanings of words, enabling more accurate and context-aware predictions.
