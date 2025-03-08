@@ -94,3 +94,41 @@ In this way, attention acts like a spotlight, highlighting the most important pa
 - **Flexibility**: It enables transformers to handle variable-length inputs and outputs efficiently.
 
 By leveraging the attention mechanism, transformers achieve state-of-the-art performance in tasks like language translation, text generation, and more.
+
+
+# Freezing and Unfreezing Model Parameters
+
+
+## 1. Freezing All Base Model Parameters
+```python
+for name, param in model.base_model.named_parameters():
+    param.requires_grad = False
+```
+- **Purpose**: This loop freezes all parameters in the `base_model` (e.g., the pre-trained layers of a transformer model).
+- **How it works**:
+  - `named_parameters()` iterates over all parameters in the `base_model`, returning their names and values.
+  - `param.requires_grad = False` ensures that these parameters are **not updated** during training. This is useful when you want to retain the pre-trained knowledge of the model and avoid overfitting to a small dataset.
+
+---
+
+## 2. Unfreezing Base Model Pooling Layers
+
+```python
+for name, param in model.base_model.named_parameters():
+    if "pooler" in name:
+        param.requires_grad = True
+```
+- **Purpose**: This loop selectively unfreezes the parameters of the pooling layers in the `base_model`.
+- **How it works**:
+  - The `if "pooler" in name` condition checks if the parameter belongs to the pooling layers (e.g., the layers responsible for aggregating token-level representations into a single sentence-level representation).
+  - `param.requires_grad = True` allows these parameters to be **updated during training**. This is useful when you want to fine-tune specific parts of the model to better adapt to your task.
+
+---
+
+## Why Freeze and Unfreeze?
+- **Freezing**: Prevents the pre-trained weights from changing, which is helpful when:
+  - The dataset is small, and fine-tuning all parameters could lead to overfitting.
+  - You want to save computational resources by training only a subset of the model.
+- **Unfreezing Specific Layers**: Allows targeted fine-tuning of certain layers (e.g., pooling layers) to adapt them to the specific task while keeping the rest of the model fixed.
+
+---
